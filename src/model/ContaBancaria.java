@@ -3,11 +3,13 @@ package model;
 import exception.SaldoInsuficienteException;
 import exception.ValorInvalidoException;
 
+import java.math.BigDecimal;
+
 public class ContaBancaria {
 
     private String nomeDoTitular;
     private  long numeroDaConta;
-    private double saldo;
+    private BigDecimal saldo;
 
     @Override
     public String toString() {
@@ -18,8 +20,8 @@ public class ContaBancaria {
                 '}';
     }
 
-    public ContaBancaria(String nomeDoTitular, double saldo) {
-        if(saldo <= 0) {
+    public ContaBancaria(String nomeDoTitular, BigDecimal saldo) {
+        if(saldo.compareTo(BigDecimal.ONE) < 0) {
             throw new ValorInvalidoException("Valor do saldo inicial não por de menor ou igual a zero.");
         } else {
             this.nomeDoTitular = nomeDoTitular;
@@ -43,23 +45,23 @@ public class ContaBancaria {
         this.numeroDaConta = numeroDaConta;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void depositar(double valor) {
-        if(valor > 0) {
-            this.saldo += valor;
+    public void depositar(BigDecimal valor) {
+        if(valor.compareTo(BigDecimal.ZERO) > 0) {
+            this.saldo = this.saldo.add(valor);
         } else {
             throw new ValorInvalidoException("Impossível depositar valor igual ou menor que zero.");
         }
     }
 
-    public void sacar(double valor) {
-        if(valor > this.saldo) {
+    public void sacar(BigDecimal valor) {
+        if(valor.compareTo(this.saldo) > 0) {
             throw new SaldoInsuficienteException("Saldo insuficiente para realizar saque.");
         } else {
-            this.saldo -= valor;
+            this.saldo = this.saldo.subtract(valor);
         }
     }
 }

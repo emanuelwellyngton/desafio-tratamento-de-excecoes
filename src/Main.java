@@ -50,7 +50,7 @@ public class Main {
             System.out.println("Digite o nome do titular da conta:");
             var nome = scanner.next();
             System.out.println("Digite o saldo inicial da conta:");
-            var saldoInicial = scanner.nextDouble();
+            var saldoInicial = scanner.nextBigDecimal();
 
             var contaBancaria = dao.save(new ContaBancaria(nome, saldoInicial));
 
@@ -69,7 +69,7 @@ public class Main {
            var numeroConta = scanner.nextInt();
            var conta = dao.getAccountByNumber(numeroConta);
            System.out.println("Digite o valor do depósito:");
-           var valor = scanner.nextDouble();
+           var valor = scanner.nextBigDecimal();
            conta.depositar(valor);
        } catch (ValorInvalidoException ex) {
            System.out.println(ex.getMessage());
@@ -84,7 +84,7 @@ public class Main {
             var numeroConta = scanner.nextInt();
             var conta = dao.getAccountByNumber(numeroConta);
             System.out.println("Digite o valor do saque:");
-            var valor = scanner.nextDouble();
+            var valor = scanner.nextBigDecimal();
             conta.sacar(valor);
             System.out.printf("Saque realizado com sucesso na conta nº %s\n", conta.getNumeroDaConta());
         } catch (SaldoInsuficienteException ex) {
